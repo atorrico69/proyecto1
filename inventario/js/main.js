@@ -1,188 +1,73 @@
-//Clases
-import Interfaz from './classes/interfaz.js';
-import Inventario from './classes/inventario.js';
-import Producto from './classes/producto.js';
-//Interfaz
-var interfaz = new Interfaz;
-//Botones
-const btnAgregar = document.querySelector('#btnAgregar');
-const btnAgregar1 = document.querySelector('#btnAgregar1');
-const btnEliminar = document.querySelector('#btnEliminar');
-const btnEliminar1 = document.querySelector('#btnEliminar1');
-const btnBuscar = document.querySelector('#btnBuscar');
-const btnLimpiar = document.querySelector('#btnLimpiar');
-//checkbox
-const cboxInsertar = document.querySelector('#cboxInsertar');
-//Varaibles
-var producto;
-var inventario = new Inventario();
-console.log(inventario);
-btnAgregar.addEventListener('click', () => {
-    let codigo = document.getElementById('codigo').value;
-    let nombre = document.getElementById('nombre').value;
-    let descripcion = document.getElementById('descripcion').value;
-    let cantidad = document.getElementById('cantidad').value;
-    let costo = document.getElementById('costo').value;
-    var casilla = document.getElementById('casilla');
-    if (codigo != '' && nombre != '' && descripcion != '' && cantidad != '' && costo != '') {
-        console.clear();
-        if (inventario.inicio == null) {
-            if (casilla) {
-                interfaz.mostrarAlerta('🚫 Error 🚫', 'No puedes insertar productos si el inventario esta vacío');
-            } else {
-                producto = new Producto(codigo, nombre, descripcion, cantidad, costo);
-                inventario.agregarProducto(producto);
-                interfaz.mostrarRegistro('Agregar', producto);
-            }
-        } else {
-            if (casilla) {
-                if (casilla.value != '') {
-                    var aux = new Producto(codigo, nombre, descripcion, cantidad, costo);
-                    if (inventario.buscarProducto(aux) != null) {
-                        if (inventario.buscarProducto(aux).codigo != aux.codigo) {
-                            inventario.insertarProducto(aux, casilla.value);
-                            producto = aux;
-                            interfaz.mostrarRegistro('Insertar', producto);
-                        } else {
-                            interfaz.mostrarAlerta('🚫 Error 🚫', 'No puedes insertar productos con el mismo código');
-                        }
-                    } else {
-                        let found = inventario.insertarProducto(aux, casilla.value);
-                        producto = aux;
-                        if (found != false) {
-                            interfaz.mostrarRegistro('Insertar', producto);
-                        } else {
-                            interfaz.mostrarAlerta('🚫 Error 🚫', 'No puedes insertar productos al final de la lista');
-                        }
-                    }
-                } else {
-                    interfaz.mostrarAlerta('🚫 Error 🚫', 'Por favor ingresa la casilla en la que se insertará el producto');
-                }
-            } else {
-                var aux = new Producto(codigo, nombre, descripcion, cantidad, costo);
-                if (inventario.buscarProducto(aux) != null) {
-                    if (inventario.buscarProducto(aux).codigo != aux.codigo) {
-                        inventario.agregarProducto(producto, aux);
-                        producto = aux;
-                        interfaz.mostrarRegistro('Agregar', producto);
-                    } else {
-                        interfaz.mostrarAlerta('🚫 Error 🚫', 'No puedes añadir productos con el mismo código');
-                    }
-                } else {
-                    inventario.agregarProducto(producto, aux);
-                    producto = aux;
-                    interfaz.mostrarRegistro('Agregar', producto);
-                }
-            }
+$(document).ready(function(){
+	/*Mostrar ocultar area de notificaciones*/
+	$('.btn-Notification').on('click', function(){
+        var ContainerNoty=$('.container-notifications');
+        var NotificationArea=$('.NotificationArea');
+        if(NotificationArea.hasClass('NotificationArea-show')&&ContainerNoty.hasClass('container-notifications-show')){
+            NotificationArea.removeClass('NotificationArea-show');
+            ContainerNoty.removeClass('container-notifications-show');
+        }else{
+            NotificationArea.addClass('NotificationArea-show');
+            ContainerNoty.addClass('container-notifications-show');
         }
-        inventario.listarProductos(interfaz);
-        inventario.listarProductosInverso(interfaz);
-        console.log(inventario);
-    } else {
-        interfaz.mostrarAlerta('🚫 Error 🚫', 'Por favor llena todos los campos');
-    }
+    });
+    /*Mostrar ocultar menu principal*/
+    $('.btn-menu').on('click', function(){
+    	var navLateral=$('.navLateral');
+    	var pageContent=$('.pageContent');
+    	var navOption=$('.navBar-options');
+    	if(navLateral.hasClass('navLateral-change')&&pageContent.hasClass('pageContent-change')){
+    		navLateral.removeClass('navLateral-change');
+    		pageContent.removeClass('pageContent-change');
+    		navOption.removeClass('navBar-options-change');
+    	}else{
+    		navLateral.addClass('navLateral-change');
+    		pageContent.addClass('pageContent-change');
+    		navOption.addClass('navBar-options-change');
+    	}
+    });
+    /*Salir del sistema*/
+    $('.btn-exit').on('click', function(){
+    	swal({
+		  	title: 'You want out of the system?',
+		 	text: "The current session will be closed and will leave the system",
+		  	type: 'warning',
+		  	showCancelButton: true,
+		  	confirmButtonText: 'Yes, exit',
+		  	closeOnConfirm: false
+		},
+		function(isConfirm) {
+		  	if (isConfirm) {
+		    	window.location='index.html'; 
+		  	}
+		});
+    });
+    /*Mostrar y ocultar submenus*/
+    $('.btn-subMenu').on('click', function(){
+    	var subMenu=$(this).next('ul');
+    	var icon=$(this).children("span");
+    	if(subMenu.hasClass('sub-menu-options-show')){
+    		subMenu.removeClass('sub-menu-options-show');
+    		icon.addClass('zmdi-chevron-left').removeClass('zmdi-chevron-down');
+    	}else{
+    		subMenu.addClass('sub-menu-options-show');
+    		icon.addClass('zmdi-chevron-down').removeClass('zmdi-chevron-left');
+    	}
+    });
 });
-btnAgregar1.addEventListener('click', () => {
-    let codigo = document.getElementById('codigo').value;
-    let nombre = document.getElementById('nombre').value;
-    let descripcion = document.getElementById('descripcion').value;
-    let cantidad = document.getElementById('cantidad').value;
-    let costo = document.getElementById('costo').value;
-    if (codigo != '' && nombre != '' && descripcion != '' && cantidad != '' && costo != '') {
-        console.clear();
-        if (inventario.inicio == null) {
-            producto = new Producto(codigo, nombre, descripcion, cantidad, costo);
-            inventario = new Inventario();
-            inventario.agregarProductoInicio(producto);
-            interfaz.mostrarRegistro('Agregar 1°', producto);
-        } else {
-            var aux = new Producto(codigo, nombre, descripcion, cantidad, costo);
-            if (inventario.buscarProducto(aux) != null) {
-                if (inventario.buscarProducto(aux).codigo != aux.codigo) {
-                    inventario.agregarProductoInicio(aux);
-                    interfaz.mostrarRegistro('Agregar 1°', aux);
-                } else {
-                    interfaz.mostrarAlerta('🚫 Error 🚫', 'No puedes añadir productos con el mismo código');
-                }
-            } else {
-                inventario.agregarProductoInicio(aux);
-                interfaz.mostrarRegistro('Agregar 1°', aux);
-            }
-        }
-        inventario.listarProductos(interfaz);
-        inventario.listarProductosInverso(interfaz);
-        console.log(inventario);
-    } else {
-        interfaz.mostrarAlerta('🚫 Error 🚫', 'Por favor llena todos los campos');
-    }
-});
-btnEliminar.addEventListener('click', () => {
-    let codigo = document.getElementById('codigo').value;
-    if (codigo != '') {
-        if (inventario.inicio != null) {
-            console.clear();
-            var aux = new Producto(codigo, '', '', '', '', '');
-            var found = inventario.eliminarProducto(aux);
-            inventario.listarProductos(interfaz);
-            inventario.listarProductosInverso(interfaz);
-            console.log(inventario);
-            if (found != null) {
-                interfaz.mostrarRegistro('Eliminar', found);
-                console.log(found);
-            } else {
-                interfaz.mostrarAlerta('🚫 Error 🚫', 'Producto no encontrado');
-                console.log(`Producto no encontrado`);
-            }
-        } else {
-            interfaz.mostrarAlerta('🚫 Error 🚫', 'No quedan productos en el inventario');
-        }
-    } else {
-        interfaz.mostrarAlerta('🚫 Error 🚫', 'Por favor indica el código del producto a eliminar');
-    }
-});
-btnEliminar1.addEventListener('click', () => {
-    console.clear();
-    producto = inventario.eliminarProductoInicio();
-    inventario.listarProductos(interfaz);
-    inventario.listarProductosInverso(interfaz);
-    console.log(inventario);
-    console.log(producto);
-    if (producto != null) {
-        interfaz.mostrarRegistro('Eliminar 1°', producto);
-    } else {
-        interfaz.mostrarAlerta('🚫 Error 🚫', 'No quedan productos en el inventario');
-    }
-});
-btnBuscar.addEventListener('click', () => {
-    let codigo = document.getElementById('codigo').value;
-    if (codigo != '') {
-        console.clear();
-        var producto = new Producto(codigo, '', '', '', '', '');
-        var found = inventario.buscarProducto(producto);
-        console.log(inventario);
-        if (found == undefined) {
-            interfaz.ocultarArticulo();
-            interfaz.mostrarAlerta('🚫 Error 🚫', 'Producto no encontrado');
-            console.log(`Producto no encontrado`);
-        } else {
-            interfaz.mostrarArticulo(found);
-            interfaz.mostrarRegistro('Buscar', found);
-            console.log(found);
-        }
-    } else {
-        interfaz.mostrarAlerta('🚫 Error 🚫', 'Por favor indica el código del producto a buscar');
-    }
-});
-btnLimpiar.addEventListener('click', () => {
-    let codigo = document.getElementById('codigo');
-    let nombre = document.getElementById('nombre');
-    let descripcion = document.getElementById('descripcion');
-    let cantidad = document.getElementById('cantidad');
-    let costo = document.getElementById('costo');
-    let cboxInsertar = document.getElementById('cboxInsertar');
-    let casilla = document.getElementById('casilla');
-    interfaz.limpiar(codigo, nombre, descripcion, cantidad, costo, cboxInsertar, casilla);
-});
-cboxInsertar.addEventListener('click', () => {
-    interfaz.mostrarInsertar(cboxInsertar);
-});
+(function($){
+        $(window).on("load",function(){
+            $(".NotificationArea, .pageContent").mCustomScrollbar({
+                theme:"dark-thin",
+                scrollbarPosition: "inside",
+                autoHideScrollbar: true,
+                scrollButtons:{ enable: true }
+            });
+            $(".navLateral-body").mCustomScrollbar({
+                theme:"light-thin",
+                scrollbarPosition: "inside",
+                autoHideScrollbar: true,
+                scrollButtons:{ enable: true }
+            });
+        });
+})(jQuery);
