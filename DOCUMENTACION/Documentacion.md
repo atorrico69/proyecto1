@@ -45,5 +45,40 @@ Instalación en windows (servidor local)
 6- Datos de acceso por defecto: usuario: admin y contraseña: 061085Ra.
 ## DISEÑO BASE DE DATOS
 ![Diseño base de datos](bdproyecto.jpg)
+## Lista de servisios
+
+//Categoria
+GET http://localhost/proyecto/api/v1/Categoria.php
+POST http://localhost/proyecto/api/v1/Categoria.php
+PUT http://localhost/proyecto/api/v1/Categoria.php?id=:id
+PATCH http://localhost/proyecto/api/v1/Categoria.php?id=:id&campo=:campo
+DELETE http://localhost/proyecto/api/v1/Categoria.php?id=:id
+
+//Usuario
+GET http://localhost/proyecto/api/v1/Usuario.php?id=:id
+POST http://localhost/proyecto/api/v1/Usuario.php
+PUT http://localhost/proyecto/api/v1/Usuario.php?id=:id
+PATCH http://localhost/proyecto/api/v1/Usuario.php?id=:id&campo=:campo
+DELETE http://localhost/proyecto/api/v1/Usuario.php?od=:id
+POST http://localhost/proyecto/api/v1/Usuario.php?metodo=login
+POST http://localhost/proyecto/api/v1/Usuario.php?metodo=logout
+
+
+//Productos
+GET http://localhost/proyecto/api/v1/Producto.php
+POST http://localhost/proyecto/api/v1/Producto.php
+PUT http://localhost/proyecto/api/v1/Producto.php?id=:id
+PATCH http://localhost/proyecto/api/v1/Producto.php?id=:id&campo=:campo
+DELETE http://localhost/proyecto/api/v1/Producto.php?id=:id
+GET http://localhost/proyecto/api/v1/Producto.php?campo=:campo&filter=:filter&paginator=:paginator
+
+
+//Historial
+GET http://localhost/proyecto/api/v1/Historial.php
+POST http://localhost/proyecto/api/v1/Historial.php
+PUT http://localhost/proyecto/api/v1/Historial.php?id=:id
+PATCH http://localhost/proyecto/api/v1/Historial.php?id=:id&campo=:campo
+DELETE http://localhost/proyecto/api/v1/Historial.php?od=:id
+
 ## URL REPOSITORIO
 https://github.com/atorrico69/proyecto1.git
