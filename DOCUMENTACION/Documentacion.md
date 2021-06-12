@@ -42,8 +42,8 @@ Instalación en windows (servidor local)
 
 5- Configurar los datos de conexión a la base de datos editando el archivo de configuración que se encuentra en la siguiente ruta: simple_stock/config/db.php
 
-6- Vista web: http://localhost/simple_stock/
-
-7- Datos de acceso por defecto: usuario: admin y contraseña: 061085Ra.
+6- Datos de acceso por defecto: usuario: admin y contraseña: 061085Ra.
 ## DISEÑO BASE DE DATOS
 ![Diseño base de datos](bdproyecto.jpg)
+## URL REPOSITORIO
+https://github.com/atorrico69/proyecto1.git
